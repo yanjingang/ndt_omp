@@ -184,6 +184,9 @@ namespace pclomp
         /** \brief Eigen values of voxel covariance matrix */
         Eigen::Vector3d evals_;
 
+        /** \brief Points inside the cell */
+        pcl::PointCloud<PointT> pointList_;
+
       };
 
       /** \brief Pointer to VoxelGridCovariance leaf structure */
@@ -383,7 +386,7 @@ namespace pclomp
        * \return a map contataining all leaves
        */
       inline const Map&
-      getLeaves ()
+      getLeaves () const
       {
         return leaves_;
       }

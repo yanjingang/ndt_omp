@@ -232,6 +232,10 @@ namespace pclomp
 		// lower is better
 		double calculateScore(const PointCloudSource& cloud) const;
 
+		const TargetGrid& getTargetCells () const {
+      return target_cells_;
+    }
+
 	protected:
 
 		using pcl::Registration<PointSource, PointTarget>::reg_name_;
