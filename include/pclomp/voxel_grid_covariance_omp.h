@@ -501,6 +501,38 @@ namespace pclomp
         return k;
       }
 
+      int radiusSearch(const PointT& point, double radius,
+                      std::vector<LeafConstPtr>& k_leaves,
+                      std::vector<int> k_indices,
+                      std::vector<float>& k_sqr_distances,
+                      unsigned int max_nn = 0) const {
+        k_leaves.clear();
+
+        // Check if kdtree has been built
+        if (!searchable_) {
+          PCL_WARN("%s: Not Searchable", this->getClassName().c_str());
+          return 0;
+        }
+
+        // Find neighbors within radius in the occupied voxel centroid cloud
+        int k = kdtree_.radiusSearch(point, radius, k_indices, k_sqr_distances, max_nn);
+
+        // Find leaves corresponding to neighbors
+        k_leaves.reserve(k);
+        for (std::vector<int>::iterator iter = k_indices.begin();
+            iter != k_indices.end(); iter++) {
+          auto leaf = leaves_.find(voxel_centroids_leaf_indices_[*iter]);
+          if (leaf == leaves_.end()) {
+            std::cerr
+                << "error : could not find the leaf corresponding to the voxel"
+                << std::endl;
+            std::cin.ignore(1);
+          }
+          k_leaves.push_back(&(leaf->second));
+        }
+        return k;
+      }
+
       /** \brief Search for all the nearest occupied voxels of the query point in a given radius.
        * \note Only voxels containing a sufficient number of points are used.
        * \param[in] cloud the given query point
