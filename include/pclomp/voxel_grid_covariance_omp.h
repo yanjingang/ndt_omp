@@ -396,7 +396,7 @@ namespace pclomp
        * \return a map contataining all leaves
        */
       inline PointCloudPtr
-      getCentroids ()
+      getCentroids () const
       {
         return voxel_centroids_;
       }
@@ -503,7 +503,7 @@ namespace pclomp
 
       int radiusSearch(const PointT& point, double radius,
                       std::vector<LeafConstPtr>& k_leaves,
-                      std::vector<int> k_indices,
+                      std::vector<int>& k_indices,
                       std::vector<float>& k_sqr_distances,
                       unsigned int max_nn = 0) const {
         k_leaves.clear();
